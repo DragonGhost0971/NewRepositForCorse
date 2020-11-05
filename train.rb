@@ -25,7 +25,7 @@ class Train
 
   def routes(route)
     @route = route
-    route.start.take_of_the_train(self)
+    @route.start.take_of_the_train(self)
     @ind = 0
   end
 
@@ -64,11 +64,10 @@ attr_reader :trains
   def type_train(type)
     @trains.each { |train| puts train if type == train.type}
   end
-  end
 end
 
 class Route
- 
+attr_reader :travel, :start
 
   def initialize(start, finish)
     @start = start
@@ -84,9 +83,5 @@ class Route
 
   def del_station(station)
     @travel.delete(station)
-  end
-
-  def list_route
-    @travel.each { |station| puts station.name_station }
   end
 end
