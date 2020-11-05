@@ -26,21 +26,22 @@ class Train
   def routes(route)
     @route = route
     route.start.take_of_the_train(self)
-
+    @ind = 0
   end
 
   def next_one
-    @route.travel[1].take_of_the_train(self)
-    @route.travel[0].delete_the_train(self)
+    @route.travel[@ind+1].take_of_the_train(self)
+    @route.travel[@ind].delete_the_train(self)
   end
 
   def back_one
-  	@route.travel[0].take_of_the_train(self)
-    @route.travel[1].delete_the_train(self)
+  	@route.travel[@ind].take_of_the_train(self)
+    @route.travel[@ind-1].delete_the_train(self)
   end
   def view_routs
-  puts @route.travel.each
-
+  puts "next #{@route.travel[ind+1]}"
+  puts "now #{@route.travel[@ind]}"
+  puts "back #{@route.travel[ind-1]}"
   end
 end
 
