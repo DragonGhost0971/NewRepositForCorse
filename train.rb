@@ -32,11 +32,13 @@ class Train
   def next_one
     @route.travel[@ind+1].take_of_the_train(self)
     @route.travel[@ind].delete_the_train(self)
+    @ind+=1
   end
 
   def back_one
   	@route.travel[@ind-1].take_of_the_train(self)
     @route.travel[@ind].delete_the_train(self)
+    @ind-=1
   end
   def view_routs
   puts "next #{@route.travel[ind+1]}"
