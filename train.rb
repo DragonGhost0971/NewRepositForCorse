@@ -46,6 +46,8 @@ class Train
 end
 
 class Station
+attr_reader :trains
+
   def initialize(name_station)
     @name_station = name_station
     @trains = []
@@ -59,19 +61,14 @@ class Station
     @trains.delete(train)
   end
 
-  def show_trains
-    @trains.each { |train| puts train }
-  end
-
   def type_train(type)
-    @trains.each do |train|
-      puts train if type == train.type
-    end
+    @trains.each { |train| puts train if type == train.type}
+  end
   end
 end
 
 class Route
-  attr_reader :start, :travel
+ 
 
   def initialize(start, finish)
     @start = start
