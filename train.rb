@@ -1,5 +1,5 @@
 class Train
-  attr_reader :speed, :type, :number_of_cars, :route
+  attr_reader :speed, :number_of_cars, :route, :type
 
   def initialize(number, type, number_of_cars)
     @number = number
@@ -23,27 +23,37 @@ class Train
     @number_of_cars -= 1 if @speed == 0
   end
 
-  def routes(route)
+  def route(route)
     @route = route
     @route.start.take_of_the_train(self)
-    @ind = 0
+    @finish = @route.stations.size
+    @finish =-1
+    @station_now = 0
   end
 
   def next_one
-    @route.travel[@ind+1].take_of_the_train(self)
-    @route.travel[@ind].delete_the_train(self)
-    @ind+=1
+  	unless @station_now != 0
+      @route.stations[@station_now+1].take_of_the_train(self)
+      @route.stations[@station_now].delete_the_train(self)
+      @station_now=+1
+    end
   end
 
   def back_one
-  	@route.travel[@ind-1].take_of_the_train(self)
-    @route.travel[@ind].delete_the_train(self)
-    @ind-=1
+  	if @station_now != @finish && @station_now != 0
+  	  @route.stations[@station_now-1].take_of_the_train(self)
+      @route.stations[@station_now].delete_the_train(self)
+   	  @station_now=@station_now - 1
+    end
   end
-  def view_routs
-  puts "next #{@route.travel[ind+1]}"
-  puts "now #{@route.travel[@ind]}"
-  puts "back #{@route.travel[ind-1]}"
+  def view_next_station
+	  @route.stations[@station_now+1]
+  end
+  def view_back_station
+  	  @route.stations[@station_now-1]
+  end
+  def view_now_station[@]
+  	  @route.stations[@station_now]
   end
 end
 
@@ -52,7 +62,7 @@ attr_reader :trains
 
   def initialize(name_station)
     @name_station = name_station
-    @trains = []
+    @trains = []  
   end
 
   def take_of_the_train(train)
@@ -64,26 +74,25 @@ attr_reader :trains
   end
 
   def type_train(type)
-    @trains.each { |train| puts train if type == train.type}
+    @trains.filter {|train| type == train.type}
   end
 end
 
 class Route
-attr_reader :travel, :start
+attr_reader :stations, :finish, :start
 
   def initialize(start, finish)
     @start = start
     @finish = finish
-    @travel = [start, finish]
+    @stations = [@start, @finish]
   end
 
   def add_station(station)
-    @travel.delete_at(-1)
-    @travel << station
-    @travel << @finish
+    @stations.insert(-2, station)
   end
 
   def del_station(station)
-    @travel.delete(station)
+    @stations.delete(station)
   end
 end
+
