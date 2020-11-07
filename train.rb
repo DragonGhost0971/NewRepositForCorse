@@ -27,34 +27,30 @@ class Train
     @route = route
     @route.start.add_train(self)
     @current_station = @route.start
-    @ind_station = 1
   end
 
-  def next_one
-    unless @current_station == @route.finish
-      @current_station.del_train(self)
-      @next_station = @route.stations[@ind_station]
-      @next_station.add_train(self)
-      @current_station = @next_station
-      @ind_station += 1
-    end
-  end
-
-  def back_one
-    unless @current_station == @route.start
-      @current_station.del_train(self)
-      @ind_station -= 1
-      @next_station = @route.stations[@ind_station]
-      @next_station.add_train(self)
-      @current_station = @next_station
-    end
+  def next_station
+    @route.stations[@route.stations.index(@current_station) + 1] unless @current_station == @route.finish
   end
 
   def previous_station
-    @route.stations[@ind_station - 1] unless @current_station == @route.start
-    @current_station
-    @route.stations[@ind_station + 1] unless @current_station == @route.finish
+    @route.stations[@route.stations.index(@current_station) - 1] unless @current_station == @route.start
   end
+
+  def move_forward
+    return unless next_station
+    @current_station.delete_train(self)
+    @current_station = next_station
+    @current_station.add_train(self)
+  end
+
+  def move_backward
+  	return unless previous_station
+  	@current_station.delete_train(self)
+    @current_station = next_station
+    @current_station.add_train(self)
+  end
+
 end
 
 class Station
