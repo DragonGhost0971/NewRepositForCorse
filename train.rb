@@ -25,61 +25,61 @@ class Train
 
   def route(route)
     @route = route
-    @route.start.take_of_the_train(self)
-    @finish = @route.stations.size
-    @finish =-1
-    @station_now = 0
+    @route.start.add_train(self)
+    @current_station = @route.start
+    @ind_station = 1
   end
 
   def next_one
-  	unless @station_now != 0
-      @route.stations[@station_now+1].take_of_the_train(self)
-      @route.stations[@station_now].delete_the_train(self)
-      @station_now=+1
+    unless @current_station == @route.finish
+      @current_station.del_train(self)
+      @next_station = @route.stations[@ind_station]
+      @next_station.add_train(self)
+      @current_station = @next_station
+      @ind_station += 1
     end
   end
 
   def back_one
-  	if @station_now != @finish && @station_now != 0
-  	  @route.stations[@station_now-1].take_of_the_train(self)
-      @route.stations[@station_now].delete_the_train(self)
-   	  @station_now=@station_now - 1
+    unless @current_station == @route.start
+      @current_station.del_train(self)
+      @ind_station -= 1
+      @next_station = @route.stations[@ind_station]
+      @next_station.add_train(self)
+      @current_station = @next_station
     end
   end
-  def view_next_station
-	  @route.stations[@station_now+1]
-  end
-  def view_back_station
-  	  @route.stations[@station_now-1]
-  end
-  def view_now_station[@]
-  	  @route.stations[@station_now]
+
+  def previous_station
+    @route.stations[@ind_station - 1] unless @current_station == @route.start
+    @current_station
+    @route.stations[@ind_station + 1] unless @current_station == @route.finish
   end
 end
 
 class Station
-attr_reader :trains
+  attr_reader :trains
 
   def initialize(name_station)
     @name_station = name_station
-    @trains = []  
+    @trains = []
   end
 
-  def take_of_the_train(train)
+  def add_train(train)
     @trains << train
   end
 
-  def delete_the_train(train)
+  def del_train(train)
     @trains.delete(train)
   end
 
   def type_train(type)
-    @trains.filter {|train| type == train.type}
+    @trains.filter { |train| type == train.type }
   end
 end
 
 class Route
-attr_reader :stations, :finish, :start
+  attr_reader :stations, :finish, :start
 
   def initialize(start, finish)
     @start = start
@@ -95,4 +95,3 @@ attr_reader :stations, :finish, :start
     @stations.delete(station)
   end
 end
-
