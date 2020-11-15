@@ -3,6 +3,7 @@ class Train
 
   def initialize(number)
     @number = number
+    @carriage = []
   end
 
   def go
@@ -11,6 +12,14 @@ class Train
 
   def stop
     @speed = 0
+  end
+
+  def add_carriage(cariagee)
+    @carriage << cariagee
+  end
+
+  def del_carriage
+    @carriage.delete_at(-1)
   end
 
   def route_for_train(route)
