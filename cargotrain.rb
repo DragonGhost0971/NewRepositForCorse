@@ -1,6 +1,8 @@
 class CargoTrain < Train
+  attr_reader :type
+
   def initialize(namber)
-  	super
+    super
     @type = 'cargo'
   end
 end

@@ -6,5 +6,3 @@ require_relative 'route'
 require_relative 'carriage'
 require_relative 'coach'
 require_relative 'interface'
-
-

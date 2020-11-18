@@ -1,5 +1,2 @@
-class Carriage 
-	def initialize
-		@type = 'cargo'
-	end
+class Carriage
 end
