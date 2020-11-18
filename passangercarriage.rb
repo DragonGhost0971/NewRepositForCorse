@@ -1,7 +1,7 @@
-class PassangerTrain < Train
+class PassangerCarriage < Carriage
   attr_reader :type
 
-  def initialize(namber)
+  def initialize
     super
     @type = 'pass'
   end

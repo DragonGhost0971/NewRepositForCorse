@@ -61,7 +61,7 @@ class Interface
     puts 'Какой тип поезда: 1.Пассажирский 2.Грузовой'
     type = gets.to_i
     if type == 1
-      name_train = PassengerTrain.new(name_train)
+      name_train = PassangerTrain.new(name_train)
       @trains.merge!({ name_train_key => name_train })
       puts 'Создан Пассажирский поезд'
     end
@@ -120,8 +120,16 @@ class Interface
   def attach_car
     puts 'К какому поезду прицепить вагон?'
     train = gets.chomp
-    @trains[train].add_carriage(@trains[train])
-    puts 'Вагон прицеплен'
+    puts 'Какой прицепить вагон'
+    puts '1. Пассажирский'
+    puts '2. Грузовой'
+    choice_carriage = gets.chomp
+    if choice_carriage == 1
+      carriage = PassangerCarriage.new
+    elsif choice_carriage == 2
+      carriage = CargoCarriage.new
+    end
+    @trains[train].add_carriage(@trains[train], carriage)
   end
 
   def unhook_car

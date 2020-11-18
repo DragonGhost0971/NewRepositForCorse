@@ -14,13 +14,8 @@ class Train
     @speed = 0
   end
 
-  def add_carriage(train)
-    if train.type == 'cargo'
-      car = Carriage.new
-    else
-      car = Coach.new
-      @carriage << car
-    end
+  def add_carriage(train, carriage)
+    @carriage << carriage if train.type == carriage.type
   end
 
   def del_carriage
