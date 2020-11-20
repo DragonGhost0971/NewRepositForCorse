@@ -4,9 +4,9 @@ class Station
   include InstanceCounter
   attr_reader :trains, :name_station
 
- 	def self.all
- 		@@stations   
- 	end
+  def self.all
+    @@stations
+  end
 
   @@stations = []
 

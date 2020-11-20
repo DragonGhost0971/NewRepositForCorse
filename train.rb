@@ -1,12 +1,12 @@
 require_relative 'modules'
 
 class Train
-	include InstanceCounter
+  include InstanceCounter
   include NameCompany
   attr_reader :speed, :route, :number
 
   def self.find(num)
-  	@@trains.filter { |train| num == train.number }
+    @@trains.filter { |train| num == train.number }
   end
 
   @@trains = []

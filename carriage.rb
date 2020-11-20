@@ -1,4 +1,4 @@
 require_relative 'modules'
 class Carriage
-include NameCompany
+  include NameCompany
 end
