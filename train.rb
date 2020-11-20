@@ -1,9 +1,21 @@
+require_relative 'modules'
+
 class Train
-  attr_reader :speed, :route
+	include InstanceCounter
+  include NameCompany
+  attr_reader :speed, :route, :number
+
+  def self.find(num)
+  	@@trains.filter { |train| num == train.number }
+  end
+
+  @@trains = []
 
   def initialize(number)
     @number = number
     @carriage = []
+    @@trains.push(self)
+    register_instance
   end
 
   def go
