@@ -1,9 +1,6 @@
 module NameCompany
-  attr_reader :name
-
-  def name_company(name)
-    @name = name
-  end
+  attr_accessor :name_company
+  @name_company
 end
 
 module InstanceCounter
@@ -14,17 +11,18 @@ module InstanceCounter
 
   module ClassMethods
     def instances
-      @@instances
+      @instances
     end
   end
 
   module InstanceMethods
-    @@instances = 0
+
+  	@instances ||= 0
 
     private
 
     def register_instance
-      @@instances = +1
+      @instances =+1
     end
   end
 end
