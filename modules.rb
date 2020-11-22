@@ -1,6 +1,5 @@
 module NameCompany
   attr_accessor :name_company
-  @name_company
 end
 
 module InstanceCounter
@@ -16,13 +15,11 @@ module InstanceCounter
   end
 
   module InstanceMethods
-
-  	@instances ||= 0
-
-    private
+    protected
 
     def register_instance
-      @instances =+1
+      self.class.instances ||= 0
+      self.class.instances = + 1
     end
   end
 end
