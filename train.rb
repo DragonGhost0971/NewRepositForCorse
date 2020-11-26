@@ -16,7 +16,10 @@ class Train
     @carriage = []
     @@trains.push(self)
     register_instance
+    validate!
   end
+
+  NAMBER_FORMAT = /^[\w\d]{3}-*[\w\d]{2}$/i.freeze
 
   def go
     @speed = 60
@@ -62,5 +65,18 @@ class Train
 
   def previous_station
     @route.stations[@route.stations.index(@current_station) - 1] unless @current_station == @route.start
+  end
+
+  protected
+
+  def validate!
+    raise 'Неверный формат номера' if @number !~ NAMBER_FORMAT
+  end
+
+  def valid?
+    validate!
+    true
+  rescue StandardError
+    false
   end
 end

@@ -64,12 +64,14 @@ class Interface
       name_train = PassangerTrain.new(name_train)
       @trains.merge!({ name_train_key => name_train })
       puts 'Создан Пассажирский поезд'
-    end
-    if type == 2
+    elsif type == 2
       name_train = CargoTrain.new(name_train)
       @trains.merge!({ name_train_key => name_train })
       puts 'Создан грузовой поезд'
     end
+  rescue RuntimeError
+    puts 'Неверно назван вагон'
+    retry
   end
 
   def work_on_the_route
