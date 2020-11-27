@@ -13,8 +13,8 @@ class Train
 
   def initialize(number)
     @number = number
-    @@trains.push(self)
     validate!
+    @@trains.push(self)
     @carriage = []
     register_instance
   end
