@@ -13,10 +13,10 @@ class Train
 
   def initialize(number)
     @number = number
-    @carriage = []
     @@trains.push(self)
-    register_instance
     validate!
+    @carriage = []
+    register_instance
   end
 
   NAMBER_FORMAT = /^[\w\d]{3}-*[\w\d]{2}$/i.freeze
@@ -67,16 +67,16 @@ class Train
     @route.stations[@route.stations.index(@current_station) - 1] unless @current_station == @route.start
   end
 
-  protected
-
-  def validate!
-    raise 'Неверный формат номера' if @number !~ NAMBER_FORMAT
-  end
-
   def valid?
     validate!
     true
   rescue StandardError
     false
+  end
+
+  protected
+
+  def validate!
+    raise 'Неверный формат номера' if @number !~ NAMBER_FORMAT
   end
 end

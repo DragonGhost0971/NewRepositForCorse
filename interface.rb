@@ -69,8 +69,8 @@ class Interface
       @trains.merge!({ name_train_key => name_train })
       puts 'Создан грузовой поезд'
     end
-  rescue RuntimeError
-    puts 'Неверно назван вагон'
+  rescue RuntimeError => e
+    puts 'Неверный формат номера поезда' if e.message == 'Неверный формат номера'
     retry
   end
 
