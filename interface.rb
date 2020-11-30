@@ -70,8 +70,7 @@ class Interface
       puts 'Создан грузовой поезд'
     end
   rescue RuntimeError => e
-    puts 'Неверный формат номера поезда' if e.message == 'Неверный формат номера'
-    retry
+  	puts e.massage  e.message == 'Неверный формат номера'  
   end
 
   def work_on_the_route
