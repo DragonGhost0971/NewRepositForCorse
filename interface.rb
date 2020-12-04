@@ -143,8 +143,8 @@ class Interface
       carriage = CargoCarriage.new(volume)
       puts '1.Занять объём'
       puts '0.Не нужно'
-      get_volu = gets.to_i
-      if get_volu == 1
+      gete_volu = gets.to_i
+      if gete_volu == 1
         puts 'Сколько занять объёма'
         valuee = gets.to_i
         carriage.to_fill(valuee)
