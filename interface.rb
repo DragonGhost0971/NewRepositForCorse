@@ -16,7 +16,7 @@ class Interface
       puts '5.Добавить вагон к поезду'
       puts '6.Отцепить вагон от поезда'
       puts '7.Переместить поезд по маршрут'
-      puts '8.Просматривать список станций и список поездов на станции'
+      puts '8.Информация'
       puts '9.выход из программы'
 
       choice = gets.chomp.to_i
@@ -37,7 +37,7 @@ class Interface
       when 7
         move_train
       when 8
-        info_station
+        info
       else break
       end
     end
@@ -70,7 +70,7 @@ class Interface
       puts 'Создан грузовой поезд'
     end
   rescue RuntimeError => e
-  	puts e.massage  e.message == 'Неверный формат номера'  
+    puts e.massage e.message == 'Неверный формат номера'
   end
 
   def work_on_the_route
@@ -125,10 +125,30 @@ class Interface
     puts '1. Пассажирский'
     puts '2. Грузовой'
     choice_carriage = gets.chomp
-    if choice_carriage == 1
-      carriage = PassangerCarriage.new
-    elsif choice_carriage == 2
-      carriage = CargoCarriage.new
+    if choice_carriage == '1'
+      puts 'Укажите количество мест в вагоне'
+      seats = gets.to_i
+      carriage = PassangerCarriage.new(seats)
+      puts '1.Занять место в вагоне?'
+      puts '0.Не нужно'
+      get_seat = gets.to_i
+      if get_seat == 1
+        puts 'Сколько мест занять?'
+        gets_seat = gets.to_i
+        carriage.to_take_seats(gets_seat)
+      end
+    elsif choice_carriage == '2'
+      puts 'Укажите объём грузового вагона'
+      volume = gets.to_i
+      carriage = CargoCarriage.new(volume)
+      puts '1.Занять объём'
+      puts '0.Не нужно'
+      get_volu = gets.to_i
+      if get_volu == 1
+        puts 'Сколько занять объёма'
+        valuee = gets.to_i
+        carriage.to_fill(valuee)
+      end
     end
     @trains[train].add_carriage(@trains[train], carriage)
   end
@@ -149,10 +169,36 @@ class Interface
     @trains[train].move_backward if choice_move == 2
   end
 
-  def info_station
-    @stations.values.each do |station|
-      puts "На станции  #{station}"
-      puts "Поезда: #{station.trains.each { |train| puts train }}"
+  def info
+    puts '1.Вывести список вагонов у поезда'
+    puts '2.Вывести список поездов на станции'
+    choice_info = gets.to_i
+    if choice_info == 1
+      block = proc do |carriage|
+        puts "Номер вагона: #{carriage}"
+        if carriage.type == 'pass'
+          puts 'Тип вагона: Пассажирский'
+          puts "количество свободных мест: #{carriage.number_free_place}"
+          puts "количество занятых мест: #{carriage.number_of_place_taken}"
+        else
+          puts 'Тип вагона: Грузовой'
+          puts "Свободный объём: #{carriage.free_volume}"
+          puts "Занятый объём: #{carriage.to_fill_volume}"
+        end
+      end
+      puts 'Укажите номер поезда'
+      train = gets.chomp
+      @trains[train].block_carriage(&block)
+    else
+      block = proc do |train|
+        puts "Номер поезда: #{train.number}"
+        puts 'Тип поезда: Пассажирский' if train.type == 'pass'
+        puts 'Тип поезда: Грузовой' if train.type == 'cargo'
+        puts "Количество вагонов: #{train.carriage.size}"
+      end
+      puts 'Введите название станции'
+      station = gets.chomp
+      @stations[station].block_carriage(&block)
     end
   end
 end

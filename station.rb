@@ -28,4 +28,10 @@ class Station
   def type_train(type)
     @trains.filter { |train| type == train.type }
   end
+
+  def block_carriage
+    @trains.each do |train|
+      yield(train) if block_given?
+    end
+  end
 end
