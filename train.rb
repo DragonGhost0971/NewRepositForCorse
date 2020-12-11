@@ -3,7 +3,7 @@ require_relative 'modules'
 class Train
   include InstanceCounter
   include NameCompany
-  attr_reader :speed, :route, :number
+  attr_reader :speed, :route, :number, :carriage
 
   def self.find(num)
     @@trains.filter { |train| num == train.number }
@@ -72,6 +72,12 @@ class Train
     true
   rescue StandardError
     false
+  end
+
+  def block_carriage
+    @carriage.each do |carriage|
+      yield(carriage) if block_given?
+    end
   end
 
   protected
