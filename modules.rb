@@ -63,20 +63,21 @@ module Validation
   module ClassMethods
     def validete(name, type, _args = nil)
       @validations ||= []
-      @validations << [name, type, arg]
+      @validations << {names: name, types: type, args: _args}
+     	@validations.each {|names, validation| validation!(validation[0], validation[1], validation[2]) }
+      end
     end
   end
 
   module InstanceMethod
     def validate!(name, type, arg = nil)
+    	self.class.validate
       var = instance_variable_get("@#{name}")
       send "validate_#{type}", var, arg
+
     end
 
     def valid?
-      self.class.validations.each do |validation|
-        validation!(validation[0], validation[1], validation[2])
-      end
       true
     rescue StandardError
       false
